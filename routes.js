@@ -9,6 +9,7 @@ const requestHandeler = (request, response) => {
         response.write("<title>Enter message</title>");
         response.write("</head>");
         response.write("<body>");
+
         response.write(
           '<form  action="/message" method="POST"><input type="text" name="message"><button type="submit" value="Send">SEND</button></form>'
         );
@@ -24,7 +25,7 @@ const requestHandeler = (request, response) => {
         });
         return request.on("end", () => {
           const message = Buffer.concat(body).toString();
-          const finalMessage = message.split("=")[1];
+          const finalMessage = message.split("=")[0];
           console.log(message);
           fs.writeFile("message.txt", finalMessage, (err) => {
             response.writeHead(302, { Location: "/" });
